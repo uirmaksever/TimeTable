@@ -17,6 +17,7 @@ void setup() {
   Serial.begin(9600);  // Initialize serial monitor
   bluetoothSerial.begin(9600);
   Keyboard.begin();
+  Serial.println("Receiver started.");
 }
 
 void loop() {
@@ -49,11 +50,17 @@ void loop() {
       Serial.println("Released left or right key.");
     }
 
+    if (currentMillisForRotation - previousMillisForRotation > 1000) {
+      Keyboard.releaseAll();
+    }
+
     if (receivedChar == 'x') {
       mic_status = true ;
       
     }
     Keyboard.write('1');
+  } else {
+    Serial.println("No device connected yet.");
   }
   // If mic is active
   if (mic_status) {
